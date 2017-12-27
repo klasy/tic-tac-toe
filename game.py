@@ -164,20 +164,22 @@ class Game:
         if len(unused_cells) == 0:
             return None
 
+        cell_key = ""
+
         cells_list = unused_cells.keys()
         if level == 1:
             cell_key = choice(cells_list)
         if level == 3:
             # if it is the first move
             if len(unused_cells) == 8:
-                corner_values = [0, 2, 6, 8]
+                corner_values = [1, 3, 7, 9]
                 # if the first move was made in the corner
-                if not any(x in corner_values for x in unused_cells.values()):
-                    cell_key = "11"
+                if any(x in corner_values for x in self.player1.moves):
+                    return "11"
                 # else if the center field is taken
-                elif 4 not in unused_cells.values():
-                    tmp_unused_cells = [item.key() for item in unused_cells if item.value() in corner_values]
-                    cell_key = choice(tmp_unused_cells)
+                elif "11" not in unused_cells.keys():
+                    tmp_unused_cells = {item.key:item.value for item in unused_cells if item.value() in corner_values}
+                    return choice(tmp_unused_cells.keys())
         if level == 2 or level == 3:
             # check if there's any pair where we can win
             tmp_cell_key_computer = self.check_twos(self.player2)
