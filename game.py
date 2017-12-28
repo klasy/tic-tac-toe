@@ -178,8 +178,11 @@ class Game:
                     return "11"
                 # else if the center field is taken
                 elif "11" not in unused_cells.keys():
-                    tmp_unused_cells = {item.key:item.value for item in unused_cells if item.value() in corner_values}
-                    return choice(tmp_unused_cells.keys())
+                    tmp_unused_cells = []
+                    for key, value in unused_cells.iteritems():
+                        if value in corner_values:
+                            tmp_unused_cells.append(key)
+                    return choice(tmp_unused_cells)
         if level == 2 or level == 3:
             # check if there's any pair where we can win
             tmp_cell_key_computer = self.check_twos(self.player2)
